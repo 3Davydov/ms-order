@@ -4,6 +4,8 @@ go 1.22.2
 
 require (
 	github.com/3Davydov/ms-proto v1.0.2
+	github.com/sony/gobreaker/v2 v2.0.0
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240528184218-531527333157
 	google.golang.org/grpc v1.64.0
 	gorm.io/driver/postgres v1.5.7
 	gorm.io/gorm v1.25.10
@@ -22,6 +24,5 @@ require (
 	golang.org/x/sync v0.7.0 // indirect
 	golang.org/x/sys v0.20.0 // indirect
 	golang.org/x/text v0.15.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20240528184218-531527333157 // indirect
 	google.golang.org/protobuf v1.34.1 // indirect
 )
