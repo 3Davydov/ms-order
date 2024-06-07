@@ -6,19 +6,19 @@ import (
 	"net"
 
 	"github.com/3Davydov/ms-order/config"
-	"github.com/3Davydov/ms-order/internal/ports"
+	"github.com/3Davydov/ms-order/internal/application/core/api"
 	"github.com/3Davydov/ms-proto/golang/order"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
 type Adapter struct {
-	api  ports.APIPort
+	api  api.API
 	port int
 	order.UnimplementedOrderServer
 }
 
-func NewAdapter(api ports.APIPort, port int) *Adapter {
+func NewAdapter(api api.API, port int) *Adapter {
 	return &Adapter{
 		api:  api,
 		port: port,
