@@ -1,6 +1,7 @@
 package api
 
 import (
+	"context"
 	"strings"
 
 	"github.com/3Davydov/ms-order/internal/application/core/domain"
@@ -11,7 +12,7 @@ import (
 )
 
 type API interface {
-	PlaceOrder(order domain.Order) (domain.Order, error)
+	PlaceOrder(ctx context.Context, order domain.Order) (domain.Order, error)
 }
 
 type Application struct {
@@ -26,7 +27,7 @@ func NewApplication(db ports.DBPort, paymentStub ports.PaymentPort) *Application
 	}
 }
 
-func (a Application) PlaceOrder(order domain.Order) (domain.Order, error) {
+func (a Application) PlaceOrder(ctx context.Context, order domain.Order) (domain.Order, error) {
 	err := a.db.Save(&order)
 	if err != nil {
 		return domain.Order{}, err
