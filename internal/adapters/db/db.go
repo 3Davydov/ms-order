@@ -1,6 +1,7 @@
 package db
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/3Davydov/ms-order/internal/application/core/domain"
@@ -41,7 +42,7 @@ func NewAdapter(dataSourceUrl string) (*Adapter, error) {
 	return &Adapter{db: db}, nil
 }
 
-func (a Adapter) Get(id string) (domain.Order, error) {
+func (a Adapter) Get(ctx context.Context, id int64) (domain.Order, error) {
 	var orderEntity Order
 	var orderItems []domain.OrderItem
 	res := a.db.First(&orderEntity, id)

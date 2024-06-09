@@ -1,7 +1,7 @@
 package db
 
 import (
-	"strconv"
+	"context"
 	"testing"
 
 	"github.com/3Davydov/ms-order/config"
@@ -36,7 +36,8 @@ func (o *OrderDatabaseTestSuite) TestGet() {
 		},
 	})
 	adapter.Save(&order)
-	ord, _ := adapter.Get(strconv.Itoa(int(order.ID)))
+	ctx := context.Background()
+	ord, _ := adapter.Get(ctx, order.ID)
 	o.Equal(int64(2), ord.CustomerID)
 }
 

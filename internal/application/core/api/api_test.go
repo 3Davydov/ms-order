@@ -25,7 +25,7 @@ type mockedDB struct {
 	mock.Mock
 }
 
-func (m *mockedDB) Get(id string) (domain.Order, error) {
+func (m *mockedDB) Get(ctx context.Context, id int64) (domain.Order, error) {
 	args := m.Called(id)
 	return args.Get(0).(domain.Order), args.Error(1)
 }
