@@ -42,11 +42,32 @@ func NewAdapter(dataSourceUrl string) (*Adapter, error) {
 	return &Adapter{db: db}, nil
 }
 
+// func (a Adapter) Get(ctx context.Context, id int64) (domain.Order, error) {
+// 	var orderEntity Order
+// 	var orderItems []domain.OrderItem
+// 	res := a.db.First(&orderEntity, id)
+
+// 	for _, orderItem := range orderEntity.OrderItems {
+// 		orderItems = append(orderItems, domain.OrderItem{
+// 			ProductCode: orderItem.ProductCode,
+// 			UnitPrice:   orderItem.UnitPrice,
+// 			Quantity:    orderItem.Quantity,
+// 		})
+// 	}
+
+// 	order := domain.Order{
+// 		ID:         int64(orderEntity.ID),
+// 		CustomerID: orderEntity.CustomerID,
+// 		OrderItems: orderItems,
+// 		CreatedAt:  orderEntity.CreatedAt.UnixNano(),
+// 	}
+
+//		return order, res.Error
+//	}
 func (a Adapter) Get(ctx context.Context, id int64) (domain.Order, error) {
 	var orderEntity Order
+	res := a.db.WithContext(ctx).Preload("OrderItems").First(&orderEntity, id)
 	var orderItems []domain.OrderItem
-	res := a.db.First(&orderEntity, id)
-
 	for _, orderItem := range orderEntity.OrderItems {
 		orderItems = append(orderItems, domain.OrderItem{
 			ProductCode: orderItem.ProductCode,
@@ -54,14 +75,13 @@ func (a Adapter) Get(ctx context.Context, id int64) (domain.Order, error) {
 			Quantity:    orderItem.Quantity,
 		})
 	}
-
 	order := domain.Order{
 		ID:         int64(orderEntity.ID),
 		CustomerID: orderEntity.CustomerID,
+		Status:     orderEntity.Status,
 		OrderItems: orderItems,
 		CreatedAt:  orderEntity.CreatedAt.UnixNano(),
 	}
-
 	return order, res.Error
 }
 
